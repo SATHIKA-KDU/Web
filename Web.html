@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sri Lanka Energy Policy · Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f0d;
+    --surface: #111711;
+    --surface2: #16201a;
+    --border: rgba(74, 181, 105, 0.15);
+    --accent: #4ab569;
+    --accent2: #f5c842;
+    --accent3: #e05c3a;
+    --text: #e8f0ea;
+    --text-muted: #7a9882;
+    --text-dim: #3d5443;
+    --glow: rgba(74, 181, 105, 0.12);
+    --panel-w: 420px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    height: 58px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,15,13,0.95);
+    backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 10;
+    flex-shrink: 0;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .logo-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glow);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px 4px 8px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--text);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+
+  .header-title span { color: var(--text-muted); }
+
+  .header-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .meta-tag {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .meta-tag b { color: var(--accent); font-weight: 500; }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* ─── LEFT PANEL ─── */
+  .panel-left {
+    width: var(--panel-w);
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--surface);
+    position: relative;
+  }
+
+  .panel-left::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 200px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(74,181,105,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .panel-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+    opacity: 0.8;
+  }
+
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .panel-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .panel-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-dim) transparent;
+  }
+
+  .panel-body::-webkit-scrollbar { width: 3px; }
+  .panel-body::-webkit-scrollbar-track { background: transparent; }
+  .panel-body::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+  /* Summary Cards */
+  .summary-section {
+    margin-bottom: 20px;
+  }
+
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+
+  .stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+
+  .pillar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .pillar-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .pillar-item:hover {
+    border-color: rgba(74,181,105,0.4);
+    background: rgba(74,181,105,0.04);
+  }
+
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 500;
+    width: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pillar-text {
+    font-size: 11.5px;
+    color: var(--text);
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  .pillar-dim {
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .target-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .target-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+
+  .target-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--accent2);
+    flex-shrink: 0;
+    width: 36px;
+  }
+
+  .target-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+
+  .target-desc b { color: var(--text); font-weight: 400; }
+
+  .generate-summary-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px dashed rgba(74,181,105,0.35);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.25s;
+  }
+
+  .generate-summary-btn:hover {
+    background: var(--glow);
+    border-style: solid;
+    border-color: rgba(74,181,105,0.5);
+  }
+
+  .ai-output {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-top: 12px;
+    padding: 14px;
+    background: rgba(74,181,105,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    display: none;
+  }
+
+  .ai-output.visible { display: block; animation: fadeIn 0.4s ease; }
+  .ai-output p { margin-bottom: 8px; }
+  .ai-output p:last-child { margin-bottom: 0; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ─── RIGHT PANEL ─── */
+  .panel-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg);
+  }
+
+  .panel-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 70% 30%, rgba(74,181,105,0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 20% 80%, rgba(245,200,66,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .scenario-header {
+    padding: 20px 32px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .scenario-title-block {}
+
+  .scenario-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .chip-select {
+    appearance: none;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 6px 28px 6px 10px;
+    cursor: pointer;
+    outline: none;
+    letter-spacing: 0.05em;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%234ab569'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: border-color 0.2s;
+  }
+
+  .chip-select:hover { border-color: rgba(74,181,105,0.5); }
+  .chip-select option { background: #111711; }
+
+  .icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+
+  .icon-btn:hover { border-color: rgba(74,181,105,0.4); color: var(--accent); }
+
+  .scenario-workspace {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    gap: 0;
+  }
+
+  /* Config area */
+  .scenario-config {
+    width: 300px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 20px 20px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-dim) transparent;
+  }
+
+  .scenario-config::-webkit-scrollbar { width: 3px; }
+  .scenario-config::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+  .config-section {
+    margin-bottom: 22px;
+  }
+
+  .config-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .config-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .pill {
+    padding: 5px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    letter-spacing: 0.02em;
+  }
+
+  .pill:hover { border-color: rgba(74,181,105,0.4); color: var(--text); }
+
+  .pill.active {
+    background: rgba(74,181,105,0.15);
+    border-color: rgba(74,181,105,0.6);
+    color: var(--accent);
+  }
+
+  .pill.accent2.active {
+    background: rgba(245,200,66,0.12);
+    border-color: rgba(245,200,66,0.5);
+    color: var(--accent2);
+  }
+
+  .pill.accent3.active {
+    background: rgba(224,92,58,0.12);
+    border-color: rgba(224,92,58,0.5);
+    color: var(--accent3);
+  }
+
+  .custom-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 10px 12px;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    min-height: 90px;
+    transition: border-color 0.2s;
+  }
+
+  .custom-textarea:focus {
+    border-color: rgba(74,181,105,0.5);
+  }
+
+  .custom-textarea::placeholder {
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  .slider-wrap {
+    padding: 0 2px;
+  }
+
+  .slider-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .slider-name {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .slider-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+  }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--border);
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .generate-btn {
+    width: 100%;
+    padding: 13px 16px;
+    background: linear-gradient(135deg, rgba(74,181,105,0.25) 0%, rgba(74,181,105,0.12) 100%);
+    border: 1px solid rgba(74,181,105,0.5);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .generate-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(74,181,105,0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .generate-btn:hover::before { transform: translateX(100%); }
+  .generate-btn:hover {
+    background: linear-gradient(135deg, rgba(74,181,105,0.35) 0%, rgba(74,181,105,0.2) 100%);
+    box-shadow: 0 0 20px rgba(74,181,105,0.15), 0 0 40px rgba(74,181,105,0.05);
+  }
+
+  .generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Output area */
+  .scenario-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--text-dim) transparent;
+  }
+
+  .scenario-output::-webkit-scrollbar { width: 3px; }
+  .scenario-output::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+  .output-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .output-placeholder-icon {
+    font-size: 40px;
+    opacity: 0.2;
+    line-height: 1;
+  }
+
+  .output-placeholder h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .output-placeholder p {
+    font-size: 12px;
+    color: var(--text-dim);
+    max-width: 280px;
+    line-height: 1.6;
+  }
+
+  /* Output cards */
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .output-scenario-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .output-timestamp {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .output-section {
+    margin-bottom: 20px;
+  }
+
+  .output-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    opacity: 0.7;
+  }
+
+  .output-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .output-text strong { color: var(--text); font-weight: 500; }
+
+  .output-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .action-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    position: relative;
+  }
+
+  .action-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    border-radius: 8px 0 0 8px;
+    background: var(--accent);
+  }
+
+  .action-card.warning::before { background: var(--accent2); }
+  .action-card.risk::before { background: var(--accent3); }
+
+  .action-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .action-card-text {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* Loading animation */
+  .loading-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--bg), var(--accent), var(--bg));
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 1px;
+    margin: 8px 0;
+    display: none;
+  }
+
+  .loading-bar.active { display: block; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .loading-state {
+    padding: 32px;
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .loading-state.active { display: flex; }
+
+  .loading-spinner {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* History */
+  .history-strip {
+    display: flex;
+    gap: 8px;
+    padding: 10px 28px;
+    border-top: 1px solid var(--border);
+    overflow-x: auto;
+    flex-shrink: 0;
+    scrollbar-width: none;
+  }
+
+  .history-strip::-webkit-scrollbar { display: none; }
+
+  .history-chip {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .history-chip:hover {
+    border-color: rgba(74,181,105,0.4);
+    color: var(--text);
+  }
+
+  .history-chip-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .history-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    padding: 5px 4px;
+    flex-shrink: 0;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+  }
+
+  /* Ribbon */
+  .policy-ribbon {
+    background: rgba(74,181,105,0.07);
+    border: 1px solid rgba(74,181,105,0.2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .policy-ribbon b { color: var(--accent); font-weight: 500; }
+
+  /* iteration badge */
+  .iter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.25);
+    color: var(--accent2);
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 900px) {
+    :root { --panel-w: 340px; }
+    .scenario-config { width: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="logo-pill">
+      <div class="logo-dot"></div>
+      LIVE
+    </div>
+    <h1 class="header-title">Sri Lanka Energy Policy <span>· Intelligence Platform</span></h1>
+  </div>
+  <div class="header-meta">
+    <span class="meta-tag">Policy <b>2019</b></span>
+    <span class="meta-tag">10 Pillars</span>
+    <span class="meta-tag">Target <b>2050</b></span>
+  </div>
+</header>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LEFT: POLICY SUMMARY -->
+  <div class="panel-left">
+    <div class="panel-header">
+      <div class="panel-label">Component 01 · Policy Summary</div>
+      <div class="panel-title">National Energy Policy</div>
+      <div class="panel-subtitle">Sri Lanka 2019 · Ministry of Power, Energy & Business Development</div>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Stats -->
+      <div class="summary-section">
+        <div class="section-tag">Key Figures</div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Electrification achieved nationwide</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">2050</div>
+            <div class="stat-label">Carbon neutrality vision target</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">55%</div>
+            <div class="stat-label">Historic renewable energy share (primary)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">-50%</div>
+            <div class="stat-label">Fossil fuel dependency target by 2030</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pillars -->
+      <div class="summary-section">
+        <div class="section-tag">The 10 Policy Pillars</div>
+        <div class="pillar-list">
+          <div class="pillar-item">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-text">Assuring Energy Security</div>
+              <div class="pillar-dim">SECURITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">02</div>
+            <div>
+              <div class="pillar-text">Providing Access to Energy Services</div>
+              <div class="pillar-dim">EQUITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">03</div>
+            <div>
+              <div class="pillar-text">Energy Services at Optimum Cost</div>
+              <div class="pillar-dim">SECURITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">04</div>
+            <div>
+              <div class="pillar-text">Improving Energy Efficiency & Conservation</div>
+              <div class="pillar-dim">SECURITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">05</div>
+            <div>
+              <div class="pillar-text">Enhancing Self Reliance</div>
+              <div class="pillar-dim">SECURITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">06</div>
+            <div>
+              <div class="pillar-text">Caring for the Environment</div>
+              <div class="pillar-dim">SUSTAINABILITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">07</div>
+            <div>
+              <div class="pillar-text">Enhancing Share of Renewable Energy</div>
+              <div class="pillar-dim">SUSTAINABILITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">08</div>
+            <div>
+              <div class="pillar-text">Strengthening Good Governance</div>
+              <div class="pillar-dim">SUSTAINABILITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">09</div>
+            <div>
+              <div class="pillar-text">Securing Land for Energy Infrastructure</div>
+              <div class="pillar-dim">EQUITY</div>
+            </div>
+          </div>
+          <div class="pillar-item">
+            <div class="pillar-num">10</div>
+            <div>
+              <div class="pillar-text">Innovation & Entrepreneurship</div>
+              <div class="pillar-dim">EQUITY</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Key Targets -->
+      <div class="summary-section">
+        <div class="section-tag">Key Milestones</div>
+        <div class="target-list">
+          <div class="target-item">
+            <div class="target-year">2020</div>
+            <div class="target-desc"><b>Smart grid pilots</b> in 5 distribution zones + digital utility rollout</div>
+          </div>
+          <div class="target-item">
+            <div class="target-year">2022</div>
+            <div class="target-desc"><b>20% EV share</b> of new light vehicle registrations; rail electrification</div>
+          </div>
+          <div class="target-item">
+            <div class="target-year">2023</div>
+            <div class="target-desc"><b>1,600 MW</b> renewable capacity; 10% specific energy use reduction</div>
+          </div>
+          <div class="target-item">
+            <div class="target-year">2030</div>
+            <div class="target-desc"><b>&lt;50% fossil fuels</b> in primary energy; 20% energy use reduction from 2015</div>
+          </div>
+          <div class="target-item">
+            <div class="target-year">2050</div>
+            <div class="target-desc"><b>Carbon neutrality</b> + full transition of all energy value chains</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- AI Summary button -->
+      <div class="summary-section">
+        <div class="section-tag">AI Summary</div>
+        <div class="policy-ribbon">
+          Policy aligns with <b>UN SDG 7</b>. Built on the energy trilemma: <b>Security · Equity · Sustainability</b>. Supersedes all prior policies and is reviewed every <b>6 years</b>.
+        </div>
+        <button class="generate-summary-btn" onclick="generateSummary(this)">
+          <span>✦</span> Generate AI Policy Overview
+        </button>
+        <div class="loading-bar" id="summary-loading"></div>
+        <div class="ai-output" id="summary-output"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RIGHT: SCENARIO GENERATOR -->
+  <div class="panel-right">
+    <div class="scenario-header">
+      <div class="scenario-title-block">
+        <div class="panel-label">Component 02 · Scenario Generator</div>
+        <div class="panel-title" style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;">Policy Scenario Analysis</div>
+      </div>
+      <div class="scenario-controls">
+        <select class="chip-select" id="tone-select">
+          <option value="analytical">Analytical</option>
+          <option value="strategic">Strategic Advisory</option>
+          <option value="critical">Critical Review</option>
+          <option value="executive">Executive Brief</option>
+        </select>
+        <select class="chip-select" id="lang-select">
+          <option value="en">English</option>
+          <option value="si">Sinhala</option>
+          <option value="ta">Tamil</option>
+        </select>
+        <div class="icon-btn" title="Clear output" onclick="clearOutput()">✕</div>
+      </div>
+    </div>
+
+    <div class="scenario-workspace">
+
+      <!-- Config -->
+      <div class="scenario-config">
+
+        <div class="config-section">
+          <div class="config-label">Scenario Type</div>
+          <div class="pill-group" id="scenario-type">
+            <div class="pill active" data-val="gap-analysis" onclick="selectPill(this,'scenario-type')">Gap Analysis</div>
+            <div class="pill" data-val="impact-assessment" onclick="selectPill(this,'scenario-type')">Impact Assessment</div>
+            <div class="pill" data-val="recommendation" onclick="selectPill(this,'scenario-type')">Policy Recommendation</div>
+            <div class="pill" data-val="risk" onclick="selectPill(this,'scenario-type')">Risk Identification</div>
+            <div class="pill" data-val="compare" onclick="selectPill(this,'scenario-type')">Comparative Analysis</div>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <div class="config-label">Focus Pillar</div>
+          <div class="pill-group" id="focus-pillar">
+            <div class="pill active" data-val="all" onclick="selectPill(this,'focus-pillar')">All Pillars</div>
+            <div class="pill" data-val="energy-security" onclick="selectPill(this,'focus-pillar')">Energy Security</div>
+            <div class="pill" data-val="renewables" onclick="selectPill(this,'focus-pillar')">Renewables</div>
+            <div class="pill" data-val="efficiency" onclick="selectPill(this,'focus-pillar')">Efficiency</div>
+            <div class="pill" data-val="governance" onclick="selectPill(this,'focus-pillar')">Governance</div>
+            <div class="pill" data-val="transport" onclick="selectPill(this,'focus-pillar')">Transport</div>
+            <div class="pill" data-val="environment" onclick="selectPill(this,'focus-pillar')">Environment</div>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <div class="config-label">Context / Stakeholder</div>
+          <div class="pill-group" id="stakeholder">
+            <div class="pill active accent2" data-val="government" onclick="selectPill(this,'stakeholder')">Government</div>
+            <div class="pill accent2" data-val="private-sector" onclick="selectPill(this,'stakeholder')">Private Sector</div>
+            <div class="pill accent2" data-val="civil-society" onclick="selectPill(this,'stakeholder')">Civil Society</div>
+            <div class="pill accent2" data-val="investor" onclick="selectPill(this,'stakeholder')">Investor</div>
+            <div class="pill accent2" data-val="researcher" onclick="selectPill(this,'stakeholder')">Researcher</div>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <div class="config-label">Time Horizon</div>
+          <div class="pill-group" id="horizon">
+            <div class="pill" data-val="2020-2023" onclick="selectPill(this,'horizon')">Near-term</div>
+            <div class="pill active" data-val="2023-2030" onclick="selectPill(this,'horizon')">Mid-term</div>
+            <div class="pill accent3" data-val="2030-2050" onclick="selectPill(this,'horizon')">Long-term</div>
+          </div>
+        </div>
+
+        <div class="config-section">
+          <div class="config-label">Analysis Depth</div>
+          <div class="slider-wrap">
+            <div class="slider-label-row">
+              <span class="slider-name">Detail Level</span>
+              <span class="slider-val" id="depth-val">Medium</span>
+            </div>
+            <input type="range" min="1" max="3" value="2" id="depth-slider"
+              oninput="document.getElementById('depth-val').textContent=['Brief','Medium','Detailed'][this.value-1]">
+          </div>
+        </div>
+
+        <div class="config-section">
+          <div class="config-label">Custom Scenario Context</div>
+          <textarea class="custom-textarea" id="custom-context"
+            placeholder="e.g. 'Assess policy implementation given the 2022 economic crisis and IMF programme...'"
+            rows="4"></textarea>
+        </div>
+
+        <button class="generate-btn" id="gen-btn" onclick="generateScenario()">
+          <span>✦</span> Generate Scenario
+        </button>
+
+      </div>
+
+      <!-- Output -->
+      <div class="scenario-output" id="scenario-output">
+        <div class="output-placeholder" id="placeholder">
+          <div class="output-placeholder-icon">⚡</div>
+          <h3>Configure your scenario</h3>
+          <p>Select scenario type, focus pillar, and stakeholder perspective, then generate a policy analysis.</p>
+        </div>
+        <div class="loading-state" id="loading-state">
+          <div class="loading-spinner"></div>
+          <div class="loading-text">Analysing policy document<span id="dots">...</span></div>
+        </div>
+        <div id="output-content" style="display:none;"></div>
+      </div>
+
+    </div>
+
+    <!-- History -->
+    <div class="history-strip">
+      <span class="history-label">History:</span>
+      <div id="history-chips"></div>
+      <span class="history-label" id="no-history" style="color:var(--text-dim);font-style:italic;">No scenarios generated yet</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ─── State ───────────────────────────────────────────
+  let iterCount = 0;
+  let history = [];
+
+  const POLICY_CONTEXT = `
+Sri Lanka National Energy Policy and Strategies 2019 (Gazette Extraordinary No. 2135/61, August 9, 2019).
+
+KEY FACTS:
+- Objective: Ensure energy security through clean, safe, sustainable, reliable, economically feasible energy supply
+- 10 Policy Pillars: (1) Energy Security (2) Access to Energy Services (3) Optimum Cost (4) Energy Efficiency (5) Self-Reliance (6) Environment (7) Renewable Energy (8) Good Governance (9) Land for Infrastructure (10) Innovation & Entrepreneurship
+- Three pillars framework: Energy Security, Equity, Sustainability (trilemma)
+- Sri Lanka achieved 100% electrification
+- Historic renewable energy share: ~55% of primary energy
+- Target: Carbon neutrality and full energy transition by 2050
+- Target: Reduce fossil fuels below 50% of primary energy by 2030
+- Target: 20% reduction in specific energy use from 2015 levels by 2030
+- Aligns with UN SDG Goal 7
+- Policy reviewed every 6 years; Results Delivery Framework revised every 2 years
+
+KEY STRATEGIES (Selected):
+- LNG terminal to be established as next fossil fuel diversification
+- No single imported fuel to exceed 50% of installed firm capacity
+- Smart grid and smart metering deployment
+- Electric vehicle: 20% of new registrations by 2022
+- Rail electrification on key suburban corridors by 2023
+- 1,600 MW renewable capacity by 2023
+- Competitive bidding for renewable energy investments
+- Digitalization of energy sector using ERP, AI, IoT
+- Carbon sequestration plantations to offset coal plant footprint
+- 30-day strategic fuel reserve mandatory for all players
+- Upstream petroleum exploration (Mannar and Cauvery Basins)
+- Cross-border electricity transmission feasibility with regional countries
+
+RESULTS DELIVERY FRAMEWORK KEY MILESTONES:
+- 2019: Energy Sector Risk Assessment Panel, KPIs for utilities
+- 2020: Smart grid pilots, transparent pricing, digital utility transformation
+- 2021: Cross-border electricity feasibility study
+- 2022: 20% EV share, wind energy at 20% of generation excluding major hydro
+- 2023: 10% specific energy reduction from 2015, 1,600 MW renewable capacity
+- 2025: Complete ABC conversion of low-voltage networks outside urban areas
+- 2030: Underground urban distribution networks
+- 2050: Carbon neutrality, full energy transition
+
+KEY INSTITUTIONS: Ministry of Power, Energy & Business Development (MoPE), Ceylon Electricity Board (CEB), Lanka Electricity Company (LECO), Ceylon Petroleum Corporation (CPC), Sri Lanka Sustainable Energy Authority (SEA), Public Utilities Commission of Sri Lanka (PUCSL), Petroleum Resources Development Secretariat (PRDS)
+  `.trim();
+
+  // ─── Pill Selection ───────────────────────────────────
+  function selectPill(el, groupId) {
+    const group = document.getElementById(groupId);
+    group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function getActivePill(groupId) {
+    const group = document.getElementById(groupId);
+    const active = group.querySelector('.pill.active');
+    return active ? active.dataset.val : '';
+  }
+
+  // ─── Dots animation ───────────────────────────────────
+  let dotsInterval;
+  function startDots() {
+    let d = 0;
+    dotsInterval = setInterval(() => {
+      d = (d + 1) % 4;
+      document.getElementById('dots').textContent = '.'.repeat(d) || '';
+    }, 400);
+  }
+  function stopDots() { clearInterval(dotsInterval); }
+
+  // ─── Generate Summary ────────────────────────────────
+  async function generateSummary(btn) {
+    const loadingBar = document.getElementById('summary-loading');
+    const output = document.getElementById('summary-output');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⟳</span> Generating…';
+    loadingBar.classList.add('active');
+    output.classList.remove('visible');
+
+    const prompt = `Based on Sri Lanka's National Energy Policy 2019, provide a concise executive summary (3 short paragraphs) covering: (1) the policy's core vision and objectives, (2) the most ambitious targets and what makes them significant, and (3) the biggest implementation challenges and what success by 2050 would look like. Keep each paragraph to 2-3 sentences. Be specific and factual.
+
+Policy context: ${POLICY_CONTEXT}`;
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await response.json();
+      const text = data.content.map(b => b.text || '').join('');
+      const paras = text.trim().split('\n').filter(p => p.trim());
+      output.innerHTML = paras.map(p => `<p>${p}</p>`).join('');
+    } catch(e) {
+      output.innerHTML = '<p>Could not connect to AI service. Please check your network or API configuration.</p>';
+    }
+
+    loadingBar.classList.remove('active');
+    output.classList.add('visible');
+    btn.disabled = false;
+    btn.innerHTML = '<span>↺</span> Regenerate Summary';
+  }
+
+  // ─── Generate Scenario ───────────────────────────────
+  async function generateScenario() {
+    const scenarioType = getActivePill('scenario-type');
+    const focusPillar = getActivePill('focus-pillar');
+    const stakeholder = getActivePill('stakeholder');
+    const horizon = getActivePill('horizon');
+    const depthNum = document.getElementById('depth-slider').value;
+    const depth = ['brief (2-3 sentences per section)', 'medium (4-5 sentences per section)', 'detailed (6-8 sentences per section)'][depthNum - 1];
+    const customCtx = document.getElementById('custom-context').value.trim();
+    const tone = document.getElementById('tone-select').value;
+    const lang = document.getElementById('lang-select').value;
+
+    // Build prompt
+    const scenarioLabels = {
+      'gap-analysis': 'Gap Analysis (identify gaps between policy goals and current/likely reality)',
+      'impact-assessment': 'Impact Assessment (assess potential social, economic, environmental impacts)',
+      'recommendation': 'Policy Recommendation (provide actionable recommendations to strengthen the policy)',
+      'risk': 'Risk Identification (identify key risks to policy implementation)',
+      'compare': 'Comparative Analysis (compare with regional/global best practices)'
+    };
+
+    const prompt = `You are an energy policy analyst. Perform a ${scenarioLabels[scenarioType]} of Sri Lanka's National Energy Policy 2019.
+
+PARAMETERS:
+- Focus: ${focusPillar === 'all' ? 'All 10 pillars' : `Pillar: ${focusPillar}`}
+- Stakeholder perspective: ${stakeholder}
+- Time horizon: ${horizon}
+- Tone: ${tone}
+- Detail level: ${depth}
+- Language: ${lang === 'en' ? 'English' : lang === 'si' ? 'Sinhala (use English if not fluent)' : 'Tamil (use English if not fluent)'}
+${customCtx ? `- Additional context: ${customCtx}` : ''}
+
+POLICY CONTEXT:
+${POLICY_CONTEXT}
+
+Respond in this EXACT JSON format (no markdown, no backticks):
+{
+  "title": "Concise scenario title",
+  "overview": "A clear 2-3 sentence overview of this analysis",
+  "analysis": "The main substantive analysis paragraph(s)",
+  "keyPoints": ["Point 1", "Point 2", "Point 3", "Point 4"],
+  "opportunities": "Key opportunities relevant to this scenario and stakeholder",
+  "risks": "Key risks or challenges",
+  "recommendations": "2-3 concrete, actionable recommendations"
+}`;
+
+    // UI: show loading
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('loading-state').classList.add('active');
+    document.getElementById('output-content').style.display = 'none';
+    document.getElementById('gen-btn').disabled = true;
+    startDots();
+
+    let result;
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+      const data = await response.json();
+      let text = data.content.map(b => b.text || '').join('');
+      text = text.replace(/```json|```/g, '').trim();
+      result = JSON.parse(text);
+    } catch(e) {
+      result = {
+        title: "Analysis Unavailable",
+        overview: "The AI service could not be reached. Please check your connection.",
+        analysis: "Error: " + e.message,
+        keyPoints: [],
+        opportunities: "N/A",
+        risks: "N/A",
+        recommendations: "Please retry."
+      };
+    }
+
+    stopDots();
+    document.getElementById('loading-state').classList.remove('active');
+    iterCount++;
+
+    // Render output
+    const ts = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+    const iterBadge = iterCount > 1 ? `<span class="iter-badge">↺ v${iterCount}</span>` : '';
+
+    const kpHtml = result.keyPoints && result.keyPoints.length
+      ? result.keyPoints.map(kp => `
+          <div class="action-card">
+            <div class="action-card-label">Finding</div>
+            <div class="action-card-text">${kp}</div>
+          </div>`).join('')
+      : '';
+
+    document.getElementById('output-content').innerHTML = `
+      <div class="output-header">
+        <div class="output-scenario-name">${result.title} ${iterBadge}</div>
+        <div class="output-timestamp">${ts} · ${scenarioType} · ${horizon}</div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-section-label">Overview</div>
+        <div class="output-text">${result.overview}</div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-section-label">Analysis · ${focusPillar === 'all' ? 'All Pillars' : focusPillar} · ${stakeholder}</div>
+        <div class="output-text">${result.analysis}</div>
+      </div>
+
+      ${kpHtml ? `<div class="output-section">
+        <div class="output-section-label">Key Points</div>
+        <div class="output-actions">${kpHtml}</div>
+      </div>` : ''}
+
+      <div class="output-section">
+        <div class="output-section-label">Opportunities</div>
+        <div class="output-text">${result.opportunities}</div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-section-label">Risks & Challenges</div>
+        <div class="output-text" style="color:rgba(224,92,58,0.8);">${result.risks}</div>
+      </div>
+
+      <div class="output-section">
+        <div class="output-section-label">Recommendations</div>
+        <div class="output-text" style="background:rgba(74,181,105,0.04);border:1px solid var(--border);border-radius:8px;padding:14px;">${result.recommendations}</div>
+      </div>
+    `;
+
+    document.getElementById('output-content').style.display = 'block';
+    document.getElementById('gen-btn').disabled = false;
+
+    // Add to history
+    addHistory(result.title, { scenarioType, focusPillar, stakeholder, horizon, customCtx });
+  }
+
+  // ─── History ─────────────────────────────────────────
+  function addHistory(title, config) {
+    history.unshift({ title, config });
+    if (history.length > 8) history.pop();
+    renderHistory();
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('history-chips');
+    const noHistory = document.getElementById('no-history');
+    noHistory.style.display = history.length ? 'none' : 'inline';
+    container.innerHTML = history.slice(0,6).map((h, i) => `
+      <div class="history-chip" onclick="restoreScenario(${i})">
+        <div class="history-chip-dot"></div>
+        ${h.title.length > 28 ? h.title.slice(0,28) + '…' : h.title}
+      </div>
+    `).join('');
+  }
+
+  function restoreScenario(i) {
+    const h = history[i];
+    if (!h) return;
+    // Restore pills
+    const setActive = (groupId, val) => {
+      const group = document.getElementById(groupId);
+      group.querySelectorAll('.pill').forEach(p => {
+        p.classList.toggle('active', p.dataset.val === val);
+      });
+    };
+    setActive('scenario-type', h.config.scenarioType);
+    setActive('focus-pillar', h.config.focusPillar);
+    setActive('stakeholder', h.config.stakeholder);
+    setActive('horizon', h.config.horizon);
+    document.getElementById('custom-context').value = h.config.customCtx || '';
+    generateScenario();
+  }
+
+  function clearOutput() {
+    document.getElementById('output-content').style.display = 'none';
+    document.getElementById('loading-state').classList.remove('active');
+    document.getElementById('placeholder').style.display = 'flex';
+    iterCount = 0;
+  }
+</script>
+
+</body>
+</html>
